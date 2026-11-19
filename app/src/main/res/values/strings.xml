@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Təmiz Telefon</string>
+    <string name="acc_desc">Bütün tətbiqlərin keşini tək kliklə və saatlıq avtomatik təmizləmək üçün istifadə olunur.</string>
+    <string name="widget_name">Təmiz Telefon — Sürətli Təmizlik</string>
+    <string name="tile_label">Təmiz Telefon</string>
+</resources>

@@ -1,0 +1,1500 @@
+<!DOCTYPE html>
+<html lang="az"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Təmiz Telefon</title>
+<style>
+:root{--bg:#0f1420;--card:#182033;--tx:#e8edf7;--mut:#8b97b3;--ac:#3dd6a3;--wr:#ffb84d;--er:#ff6b6b;--bd:#26304a;--chip:#111829;--bl:#4da6ff}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--tx);font:14.5px/1.45 system-ui,sans-serif;padding:16px 0 84px}
+header{padding:8px 16px 4px;display:flex;justify-content:space-between;align-items:center}
+h1{margin:0;font-size:21px;letter-spacing:-.2px}
+.badge{font-size:11.5px;background:#173d38;color:var(--ac);padding:3px 9px;border-radius:99px;font-weight:600}
+.badge.wr{background:#332815;color:var(--wr)}
+.badge.bl{background:#152a42;color:var(--bl)}
+main{padding:4px 14px}section{display:none}section.on{display:block}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px;margin:10px 0}
+.card h3{margin:0 0 8px;font-size:15px;display:flex;justify-content:space-between;align-items:center;gap:6px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+button,input,select{font:inherit;color:var(--tx)}
+button{background:var(--ac);color:#06241a;border:0;border-radius:10px;padding:9px 13px;font-weight:600;cursor:pointer}
+button.s{background:#26304a;color:var(--tx)}button.d{background:var(--er);color:#fff}button.m{padding:6px 10px;font-size:12.5px}
+button.wl{background:#2b2618;color:var(--wr);border:1px solid #594a22}
+button.st{background:#362026;color:#ff8f8f;border:1px solid #63303a}
+button.big{width:100%;padding:12px 14px;font-size:15px;display:flex;align-items:center;justify-content:center;gap:8px}
+button.cache-btn{background:linear-gradient(135deg,#3dd6a3,#2bb8d6);color:#052126}
+input,select{background:var(--chip);border:1px solid var(--bd);border-radius:10px;padding:8px 10px;min-width:0}
+.bar{height:10px;border-radius:6px;background:var(--chip);overflow:hidden;margin:6px 0 3px}.bar i{display:block;height:100%;background:var(--ac);transition:width .3s}
+.bar.wr i{background:var(--wr)}.bar.er i{background:var(--er)}
+.note{color:var(--mut);font-size:12.5px}.warn{color:var(--wr)}.red{color:var(--er)}.ok{color:var(--ac)}.blue{color:var(--bl)}
+.li{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--bd)}.li:last-child{border:0}
+.app-l{display:flex;gap:10px;align-items:center;min-width:0;flex:1}
+.app-ic{width:38px;height:38px;border-radius:10px;background:var(--chip);flex-shrink:0;object-fit:cover}
+.app-tx{min-width:0;flex:1}.app-nm{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pills{display:flex;gap:6px;overflow-x:auto;padding:4px 0 8px;scrollbar-width:none}.pills::-webkit-scrollbar{display:none}
+.pill{background:var(--chip);border:1px solid var(--bd);color:var(--mut);padding:6px 11px;border-radius:99px;font-size:12.5px;white-space:nowrap}
+.pill.on{background:#173d38;border-color:var(--ac);color:var(--ac)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}
+.th{position:relative;aspect-ratio:1;border-radius:9px;overflow:hidden;background:var(--chip);border:2px solid transparent}
+.th img{width:100%;height:100%;object-fit:cover}.th.sel{border-color:var(--er)}
+.th small{position:absolute;left:0;right:0;bottom:0;background:#000b;font-size:10px;padding:2px 4px;display:flex;justify-content:space-between}
+.th .chk{position:absolute;top:4px;right:4px;background:#0009;border:1.5px solid #fff;border-radius:50%;width:22px;height:22px;text-align:center;line-height:19px;font-size:13px;color:#fff}
+.th.sel .chk{background:var(--er);border-color:var(--er)}
+.th .best-tag{position:absolute;top:4px;left:4px;background:#0f2e26dd;color:var(--ac);border:1px solid var(--ac);border-radius:6px;padding:1px 5px;font-size:9.5px;font-weight:700}
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:6px}
+.stat-box{background:var(--chip);border:1px solid var(--bd);border-radius:10px;padding:10px;text-align:center}
+.stat-box b{display:block;font-size:16px;color:var(--ac)}.stat-box span{font-size:11.5px;color:var(--mut)}
+.chart{display:flex;align-items:flex-end;gap:4px;height:68px;padding-top:10px;margin-top:6px}
+.chart i{flex:1;background:var(--ac);border-radius:4px 4px 0 0;min-height:4px;opacity:.85}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:#0b101a;border-top:1px solid var(--bd);z-index:8}
+nav button{flex:1;background:none;color:var(--mut);border-radius:0;padding:11px 2px;font-size:11.5px}nav button.on{color:var(--ac)}
+#toast{position:fixed;left:14px;right:14px;bottom:88px;background:#26304a;padding:11px 14px;border-radius:10px;display:none;z-index:12;box-shadow:0 6px 20px #0008}
+.sticky-del{position:sticky;bottom:68px;border-color:var(--er);background:#1f1722;z-index:7}
+#lb{position:fixed;inset:0;background:#000e;display:none;flex-direction:column;justify-content:space-between;padding:18px;z-index:20}
+#lb img{max-width:100%;max-height:68vh;object-fit:contain;margin:auto;border-radius:10px}
+.setup-box{background:#231e16;border:1px solid #594622;border-radius:10px;padding:10px;margin-top:8px}
+.prog-box{background:#12242c;border:1px solid #235363;border-radius:10px;padding:10px;margin-top:8px}
+.tag-chip{display:inline-block;font-size:10.5px;padding:2px 6px;border-radius:6px;background:#26304a;color:var(--tx);margin-right:4px;margin-top:3px}
+.tag-chip.er{background:#381c22;color:#ff8f8f}
+.tag-chip.ok{background:#16382f;color:var(--ac)}
+/* ===== v4.0 ===== */
+html[data-theme=amoled]{--bg:#000;--card:#090c13;--bd:#1a2133;--chip:#04060a}
+html[data-theme=amoled] nav{background:#000}
+html[data-theme=light]{--bg:#eef2f9;--card:#fff;--tx:#14203a;--mut:#5c6a88;--bd:#d8e0ee;--chip:#edf1f8;--ac:#0f9d73;--wr:#c47a00;--er:#d93a3a;--bl:#1a73d9}
+html[data-theme=light] nav{background:#fff}
+html[data-theme=light] button{color:#fff}
+html[data-theme=light] button.s{background:#e1e8f5;color:#14203a}
+html[data-theme=light] .badge{background:#d8f3e9}
+html[data-theme=light] .badge.bl{background:#dbeafc}
+html[data-theme=light] .pill.on{background:#d8f3e9}
+html[data-theme=light] .tag-chip{background:#e1e8f5}
+html[data-theme=light] .setup-box{background:#fff6e4;border-color:#ecd49a}
+html[data-theme=light] .prog-box{background:#e6f5fa;border-color:#a8d5e3}
+html[data-theme=light] button.cache-btn{color:#fff}
+html[data-theme=light] #toast{background:#14203a;color:#fff}
+.hs-wrap{display:flex;align-items:center;gap:14px}
+.hs-ring{width:92px;height:92px;flex-shrink:0;position:relative}
+.hs-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.hs-ring b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:24px}
+.tip{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0;border-top:1px solid var(--bd);font-size:13px}
+.seg{display:flex;height:14px;border-radius:7px;overflow:hidden;background:var(--chip);margin:8px 0 6px}
+.seg i{display:block;height:100%}
+.legend{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:11.5px;color:var(--mut)}
+.legend span::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px;background:var(--c)}
+.chk-i{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--bd);font-size:13px}
+.chk-i:last-child{border:0}
+#res-modal{position:fixed;inset:0;background:#000c;display:none;align-items:center;justify-content:center;z-index:30;padding:20px}
+.res-box{background:var(--card);border:1px solid var(--ac);border-radius:18px;padding:22px 18px;width:100%;max-width:360px;text-align:center;animation:pop .35s ease}
+.res-big{font-size:38px;font-weight:800;color:var(--ac);margin:4px 0}
+@keyframes pop{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
+.msg-row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--bd)}
+.msg-row:last-child{border:0}
+.fi{display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--bd)}
+.fi:last-child{border:0}
+.fi .cb{width:22px;height:22px;border-radius:6px;border:1.5px solid var(--mut);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;color:#fff}
+.fi.sel .cb{background:var(--er);border-color:var(--er)}
+.tl-svg{width:100%;height:auto;display:block;margin-top:6px}
+.sub-tabs{display:flex;gap:6px;flex-wrap:wrap}
+</style></head><body>
+
+<header>
+  <h1>🧹 Təmiz Telefon</h1>
+  <span class="badge" id="dev-badge">v4.0 Pro</span>
+</header>
+
+<main>
+<!-- 1. ANA -->
+<section id="p-home" class="on">
+
+ <div class="card" id="health-card">
+  <h3>❤️ Telefon sağlamlığı <span class="badge" id="hs-badge">--</span></h3>
+  <div class="hs-wrap">
+    <div class="hs-ring">
+      <svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="34" fill="none" stroke="var(--chip)" stroke-width="8"/><circle id="hs-arc" cx="40" cy="40" r="34" fill="none" stroke="var(--ac)" stroke-width="8" stroke-linecap="round" stroke-dasharray="0 214"/></svg>
+      <b id="hs-num">--</b>
+    </div>
+    <div class="note" id="hs-txt" style="flex:1">Hesablanır…</div>
+  </div>
+  <div id="hs-tips"></div>
+ </div>
+
+ <div class="card" id="setup-card" style="display:none">
+  <h3>⚙️ Quraşdırma yoxlaması <span class="badge wr" id="setup-cnt"></span></h3>
+  <div id="setup-list"></div>
+ </div>
+
+ <div class="card" id="brk-card" style="display:none">
+  <h3>💽 Yaddaş nədən ibarətdir? <span class="note" id="brk-tot"></span></h3>
+  <div class="seg" id="brk-seg"></div>
+  <div class="legend" id="brk-leg"></div>
+ </div>
+
+ <div class="card">
+  <h3>Vəziyyət <span class="note" id="bat-mini"></span></h3>
+  <div class="bar" id="rbar"><i id="rb"></i></div><div class="note" id="rt"></div>
+  <div class="bar" id="sbar"><i id="sb"></i></div><div class="note" id="st"></div>
+ </div>
+
+ <div class="card">
+  <h3>Tək kliklə tam təmizlik <span class="badge" id="hourly-pill">⏱ Hər 1 saat</span></h3>
+  <div style="display:flex;flex-direction:column;gap:8px">
+    <button class="big" onclick="cleanAllOneClick()">🚀 RAM + Bütün Tətbiq Keşlərini Təmizlə</button>
+    <div class="row">
+      <button class="s" style="flex:1" onclick="cleanRamOnly()">⚡ Yalnız RAM</button>
+      <button class="cache-btn" style="flex:1" onclick="cleanCacheOnly()">🧼 Bütün Keşlər (<span id="cache-tot-lbl">...</span>)</button>
+    </div>
+  </div>
+
+  <div id="cache-prog-box" class="prog-box" style="display:none">
+    <div class="row" style="justify-content:space-between">
+      <b class="ok" style="font-size:13px" id="cp-title">Keş təmizlənir...</b>
+      <button class="d m" onclick="N.stopCacheClean()">Dayandır</button>
+    </div>
+    <div class="bar"><i id="cp-bar" style="width:0%"></i></div>
+    <div class="note" id="cp-sub">Hazırlanır...</div>
+  </div>
+
+  <div id="acc-warn" class="setup-box" style="display:none">
+    <div class="warn" style="font-weight:600;font-size:13px">⚙️ Birbaşa keş təmizliyi üçün icazə lazımdır</div>
+    <p class="note" style="margin:4px 0 8px">Bütün tətbiqlərin keşini avtomatik təmizləmək üçün Əlçatanlıq (Accessibility) xidmətində <b>"Təmiz Telefon"</b>u aktiv edin.</p>
+    <div class="row">
+      <button class="m" onclick="N.openAccessibility()">Əlçatanlığı aç</button>
+      <button class="s m" id="btn-usage-home" onclick="N.openUsage()">İstifadə icazəsi</button>
+    </div>
+  </div>
+  <p class="note" style="margin-bottom:0;margin-top:8px">Arxa plan RAM-ını boşaldır və bütün tətbiqlərin keş yaddaşını bir-bir avtomatik silir (Ağ siyahı qorunur).</p>
+ </div>
+
+ <!-- ARXA PLANDA AÇIQ TƏTBİQLƏR KARTI -->
+ <div class="card">
+  <h3>
+    <span>🟢 Arxa planda açıq tətbiqlər <span class="badge bl" id="run-cnt-badge">0</span></span>
+    <button class="st m" id="btn-stop-all-home" onclick="stopAllRunningHome()" style="display:none">Hamısını dayandır</button>
+  </h3>
+  <div id="home-run-list"><p class="note">Yoxlanılır...</p></div>
+ </div>
+
+ <div class="card">
+  <h3>Sürətli alətlər</h3>
+  <div class="row">
+    <button class="s m" onclick="openCacheApps()">🧼 Tətbiq keşləri</button>
+    <button class="s m" onclick="openUnusedApps()">⏳ Uzun müddət açılmayanlar</button>
+    <button class="s m" onclick="goTab('gal')">🖼 Ağıllı qalereya</button>
+    <button class="s m" onclick="goTab('fil')">📦 APK &amp; Videolar</button>
+    <button class="s m" onclick="goTab('sys')">🛡️ Məxfilik &amp; Batareya</button>
+  </div>
+ </div>
+
+ <div class="card">
+  <h3>Son 30 günlük nəticə</h3>
+  <div class="stat-grid">
+    <div class="stat-box"><b id="st-mb">0 MB</b><span>Azad RAM</span></div>
+    <div class="stat-box"><b id="st-cache">0 MB</b><span>Silinən Keş</span></div>
+    <div class="stat-box"><b id="st-cnt">0</b><span>Təmizlik sayı</span></div>
+  </div>
+ </div>
+</section>
+
+<!-- 2. TƏTBİQLƏR -->
+<section id="p-app">
+ <div id="perm" class="card" style="display:none">
+  <b class="warn">İstifadə və Keş girişi lazımdır</b>
+  <p class="note">Tətbiqlərin son istifadə tarixini, arxa plan aktivliyini və keş həcmini görmək üçün "Təmiz Telefon"a icazə verin.</p>
+  <button onclick="N.openUsage()">İcazə ver</button>
+ </div>
+
+ <div class="card">
+  <div class="row" style="margin-bottom:8px">
+    <select id="af" onchange="renderApps()" style="flex:1">
+      <option value="running">🟢 Arxa planda açıq olanlar</option>
+      <option value="old">⏳ Uzun müddət istifadə olunmayanlar (30+ gün)</option>
+      <option value="unusedAll">📅 İstifadə vaxtına görə (Ən köhnədən)</option>
+      <option value="cache">🧼 Ən çox keş yığanlar</option>
+      <option value="size">💾 Ən çox yer tutanlar</option>
+      <option value="wl">⭐ Qorunanlar (Ağ siyahı)</option>
+      <option value="all">📋 Hamısı (A-Z)</option>
+    </select>
+    <button class="st m" id="btn-batch-app" onclick="batchActionForFilter()" style="display:none">Hamısını dayandır</button>
+  </div>
+  <input id="aq" type="search" placeholder="Tətbiq axtar..." oninput="renderApps()" style="width:100%;margin-bottom:6px">
+  <div class="note" id="acnt"></div>
+  <div id="apps"></div>
+ </div>
+</section>
+
+<!-- 3. QALEREYA -->
+<section id="p-gal">
+ <div class="card">
+  <h3>Ağıllı qalereya analizi <span class="note" id="cache-tag"></span></h3>
+  <div class="row">
+    <select id="lim">
+      <option value="500">Son 500</option>
+      <option value="1500" selected>Son 1500</option>
+      <option value="4000">Son 4000</option>
+      <option value="99999">Hamısı</option>
+    </select>
+    <button onclick="scan(false)">🔍 Analiz et</button>
+    <button class="s m" onclick="clearCache()">Keşi sıfırla</button>
+  </div>
+  <div style="margin-top:8px">
+    <label class="note">Bulanıqlıq həddi: <b id="sens-val">35</b>
+      <input id="sens" type="range" min="5" max="120" value="35" oninput="$('#sens-val').textContent=this.value;renderGal()" style="width:100%;margin-top:4px">
+    </label>
+  </div>
+  <div id="prog" class="note" style="margin-top:4px"></div>
+ </div>
+
+ <div id="gal-cats" class="pills" style="display:none"></div>
+ <div id="res"></div>
+
+ <div class="card sticky-del" id="delbox" style="display:none">
+  <div id="selinfo" style="font-weight:600"></div>
+  <div class="row" style="margin-top:8px">
+    <button class="d" onclick="delSel()">🗑 Zibil qutusuna at</button>
+    <button class="s" onclick="delSelPerm()">⛔ Birdəfəlik sil</button>
+    <button class="s" onclick="sel.clear();renderGal()">Ləğv et</button>
+  </div>
+ </div>
+</section>
+
+<!-- 4. FAYLLAR VƏ VİDEOLAR -->
+<section id="p-fil">
+ <div class="card">
+  <div class="sub-tabs">
+    <button class="m" id="ft-vid" onclick="switchFil('vid')">🎬 Videolar</button>
+    <button class="m s" id="ft-doc" onclick="switchFil('doc')">📦 APK &amp; Fayllar</button>
+    <button class="m s" id="ft-msg" onclick="switchFil('msg')">💬 Mesajlaşma</button>
+    <button class="m s" id="ft-junk" onclick="switchFil('junk')">🧽 Zibil fayllar</button>
+    <button class="m s" id="ft-trash" onclick="switchFil('trash')">🗑 Zibil qutusu</button>
+  </div>
+ </div>
+
+ <div id="box-vid" class="card">
+  <h3>Böyük videolar və ekran qeydləri <button class="s m" onclick="loadVideos()">Yenilə</button></h3>
+  <div class="pills" style="margin-top:4px">
+    <button class="pill on" id="vp-all" onclick="setVidFilter('all')">Hamısı</button>
+    <button class="pill" id="vp-rec" onclick="setVidFilter('rec')">🎥 Ekran Qeydləri</button>
+    <button class="pill" id="vp-msg" onclick="setVidFilter('msg')">💬 WhatsApp / Telegram</button>
+  </div>
+  <div id="vids"></div>
+ </div>
+
+ <div id="box-doc" class="card" style="display:none">
+  <h3>APK paketləri və böyük fayllar (>2 MB) <button class="s m" onclick="N.openDownloads()">Yükləmələri aç</button></h3>
+  <div class="pills" style="margin-top:4px">
+    <button class="pill on" id="dp-all" onclick="setDocFilter('all')">Hamısı</button>
+    <button class="pill" id="dp-apk" onclick="setDocFilter('apk')">🤖 Quraşdırma (.apk)</button>
+    <button class="pill" id="dp-dup" onclick="setDocFilter('dup')">📑 Təkrar nüsxələr (1)</button>
+    <button class="pill" id="dp-old" onclick="setDocFilter('old')">🕰 Köhnə (90+ gün)</button>
+  </div>
+  <div id="docs"></div>
+ </div>
+
+
+ <div id="box-msg" class="card" style="display:none">
+  <div id="msg-main"></div>
+ </div>
+ <div class="card sticky-del" id="mdelbox" style="display:none">
+  <div id="mselinfo" style="font-weight:600"></div>
+  <div class="row" style="margin-top:8px">
+    <button class="d" id="m-btn-trash" onclick="msgDel('trash')">🗑 Zibil qutusuna at</button>
+    <button class="s" onclick="msgDel('delete')">⛔ Birdəfəlik sil</button>
+    <button class="s" onclick="msel.clear();renderMsgItems()">Ləğv et</button>
+  </div>
+ </div>
+
+ <div id="box-junk" class="card" style="display:none">
+  <h3>🧽 Zibil fayl skaneri</h3>
+  <div id="junk-main"></div>
+ </div>
+
+ <div id="box-trash" class="card" style="display:none">
+  <h3>🗑 Zibil qutusu <button class="s m" onclick="loadTrash()">Yenilə</button></h3>
+  <p class="note" style="margin-top:0">Qalereyadan və videolardan atılan fayllar burada 30 gün saxlanılır, sonra sistem özü silir. Yer dərhal boşalsın istəyirsənsə, <b>Həmişəlik sil</b> seç.</p>
+  <div id="trash-main"></div>
+ </div>
+ <div class="card sticky-del" id="tdelbox" style="display:none">
+  <div id="tselinfo" style="font-weight:600"></div>
+  <div class="row" style="margin-top:8px">
+    <button onclick="trashAct('restore')">♻️ Bərpa et</button>
+    <button class="d" onclick="trashAct('delete')">⛔ Həmişəlik sil</button>
+    <button class="s" onclick="tsel.clear();renderTrash()">Ləğv et</button>
+  </div>
+ </div>
+
+ <div class="card sticky-del" id="vdelbox" style="display:none">
+  <div id="vselinfo" style="font-weight:600"></div>
+  <div class="row" style="margin-top:8px">
+    <button class="d" onclick="delVidSel()">🗑 Zibil qutusuna at</button>
+    <button class="s" onclick="delVidPerm()">⛔ Birdəfəlik sil</button>
+    <button class="s" onclick="vsel.clear();renderVideos()">Ləğv et</button>
+  </div>
+ </div>
+</section>
+
+<!-- 5. SİSTEM, BATAREYA VƏ MƏXFİLİK -->
+<section id="p-sys">
+ <div class="card">
+  <h3>Batareya və Cihaz Monitoru</h3>
+  <div class="bar" id="bbar"><i id="bb"></i></div>
+  <div class="note" id="bt-main"></div>
+  <div class="stat-grid" style="margin-top:8px">
+    <div class="stat-box"><b id="b-temp">--°C</b><span>Temperatur</span></div>
+    <div class="stat-box"><b id="b-volt">-- V</b><span>Gərginlik</span></div>
+    <div class="stat-box"><b id="b-hlth">--</b><span>Vəziyyət</span></div>
+  </div>
+  <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--bd)">
+    <div class="row" style="justify-content:space-between">
+      <span class="note">🔋 Şarj qoruma siqnalı:</span>
+      <select id="bat-limit" onchange="saveBatGuard()">
+        <option value="0">Sönülü</option>
+        <option value="80">80%-də xəbərdar et</option>
+        <option value="85">85%-də xəbərdar et</option>
+        <option value="90" selected>90%-də xəbərdar et</option>
+        <option value="95">95%-də xəbərdar et</option>
+      </select>
+    </div>
+    <div class="row" style="margin-top:6px">
+      <label class="note"><input type="checkbox" id="bat-heat" checked onchange="saveBatGuard()"> 🌡️ 42°C+ yüksək istilik xəbərdarlığı</label>
+    </div>
+  </div>
+ </div>
+
+
+ <div class="card">
+  <h3>📈 Yaddaş proqnozu və son 24 saat</h3>
+  <div id="fc-txt" class="note">Məlumat toplanır… Tətbiq arxa planda hər saat ölçü qeyd edir.</div>
+  <div id="tl-chart"></div>
+  <div class="legend" style="margin-top:6px"><span style="--c:#3dd6a3">Batareya %</span><span style="--c:#ffb84d">Temperatur °C</span></div>
+ </div>
+
+ <div class="card">
+  <h3>🎨 Görünüş</h3>
+  <div class="row">
+    <select id="theme-sel" onchange="setTheme(this.value)" style="flex:1">
+      <option value="dark">🌙 Qaranlıq</option>
+      <option value="amoled">⚫ AMOLED (tam qara)</option>
+      <option value="light">☀️ İşıqlı</option>
+    </select>
+  </div>
+ </div>
+
+ <div class="card">
+  <h3>⏱ Hər 1 saatdan bir Avtomatik Təmizlik</h3>
+  <div class="row">
+    <label><input type="checkbox" id="hourly-on" checked onchange="saveHourly()"> Hər 1 saatdan bir RAM + Keş təmizlə</label>
+  </div>
+  <div class="row" style="margin-top:6px">
+    <label><input type="checkbox" id="hourly-cache" checked onchange="saveHourly()"> Ekran sönülü olanda bütün tətbiq keşlərini də sil</label>
+  </div>
+  <p class="note" style="margin-bottom:0;margin-top:6px">Proqram hər 60 dəqiqədən bir arxa planda RAM-ı boşaldır və tətbiq keşlərini təmizləyir.</p>
+ </div>
+
+ <div class="card">
+  <h3>📊 Tətbiq Ekran Vaxtı (Son 7 gün)</h3>
+  <div id="screen-time-list"><p class="note">Yüklənir...</p></div>
+ </div>
+
+ <div class="card">
+  <h3>🛡️ Məxfilik və İcazə Auditi</h3>
+  <p class="note" style="margin-top:0">Kamera, Mikrofon, Məkan və SMS icazəsi verilmiş tətbiqlər:</p>
+  <div id="priv-list"><p class="note">Yoxlanılır...</p></div>
+ </div>
+
+ <div class="card">
+  <h3>Gündəlik əlavə cədvəl</h3>
+  <div class="row">
+    <label><input type="checkbox" id="son"> Aktiv</label>
+    <input type="time" id="stime" value="03:00">
+    <select id="sdays"><option value="1">Hər gün</option><option value="7">Həftədə 1</option></select>
+  </div>
+  <div class="row" style="margin-top:8px">
+    <label><input type="checkbox" id="snote" checked> Bildiriş göndər</label>
+  </div>
+  <div class="row" style="margin-top:10px">
+    <button onclick="saveSch()">Yadda saxla</button>
+    <button class="s m" id="btn-bopt" onclick="N.requestIgnoreBatteryOpt()">Batareya məhdudiyyətini söndür</button>
+  </div>
+  <p class="note" id="bopt-note" style="margin-bottom:0"></p>
+ </div>
+
+ <div class="card">
+  <h3>Təmizlik tarixçəsi (Son 30 əməliyyat)</h3>
+  <div class="chart" id="hchart"></div>
+  <div id="hlist" style="margin-top:8px"></div>
+ </div>
+</section>
+</main>
+
+<!-- FULLSCREEN LIGHTBOX -->
+<div id="lb" onclick="if(event.target===this)closeLb()">
+  <div class="row" style="justify-content:space-between">
+    <span id="lb-title" style="font-weight:600;max-width:75%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span>
+    <button class="s m" onclick="closeLb()">✕ Bağla</button>
+  </div>
+  <img id="lb-img" src="" alt="">
+  <div class="card" style="margin:0">
+    <div id="lb-meta" class="note" style="margin-bottom:8px"></div>
+    <div class="row">
+      <button id="lb-sel-btn" onclick="toggleLbSel()">Seç</button>
+      <button class="s" onclick="closeLb()">Geri</button>
+    </div>
+  </div>
+</div>
+
+
+<div id="res-modal" onclick="if(event.target===this)closeResult()">
+  <div class="res-box">
+    <div style="font-size:36px">✨</div>
+    <div class="res-big" id="res-big">0 MB</div>
+    <div class="note" id="res-sub">təmizləndi</div>
+    <div class="stat-grid" style="margin:14px 0">
+      <div class="stat-box"><b id="rs-ram">0</b><span>RAM (MB)</span></div>
+      <div class="stat-box"><b id="rs-cache">0</b><span>Keş</span></div>
+      <div class="stat-box"><b id="rs-apps">0</b><span>Tətbiq</span></div>
+    </div>
+    <div class="row" style="justify-content:center">
+      <button onclick="shareResult()">📤 Paylaş</button>
+      <button class="s" onclick="closeResult()">Bağla</button>
+    </div>
+  </div>
+</div>
+
+<nav>
+  <button class="on" data-t="home">Ana</button>
+  <button data-t="app">Tətbiqlər</button>
+  <button data-t="gal">Qalereya</button>
+  <button data-t="fil">Fayllar</button>
+  <button data-t="sys">Sistem</button>
+</nav>
+<div id="toast"></div>
+
+<script>
+const $=s=>document.querySelector(s),J=s=>JSON.parse(s),N=window.Native||{};
+const fmt=b=>b>=1e9?(b/1e9).toFixed(2)+' GB':b>=1e6?Math.round(b/1e6)+' MB':Math.round(b/1e3)+' KB';
+const fmtDur=ms=>{const s=Math.floor(ms/1000),m=Math.floor(s/60),r=s%60;return m+':'+String(r).padStart(2,'0')};
+const fmtHours=ms=>{const m=Math.floor(ms/60000),h=Math.floor(m/60),rm=m%60;return h>0?`${h} saat ${rm} dəq`:`${rm} dəq`};
+const fmtDate=ts=>{if(!ts)return '';const d=new Date(ts);return String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'+d.getFullYear()};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const tick=()=>new Promise(r=>setTimeout(r,0));
+
+function toast(m){
+  const t=$('#toast');t.textContent=m;t.style.display='block';
+  clearTimeout(t._t);t._t=setTimeout(()=>t.style.display='none',4200);
+}
+
+let activeTab='home';
+function goTab(tab){
+  activeTab=tab;
+  document.querySelectorAll('nav button,section').forEach(e=>e.classList.remove('on'));
+  const btn=document.querySelector(`nav button[data-t="${tab}"]`);
+  if(btn)btn.classList.add('on');
+  $('#p-'+tab).classList.add('on');
+  if(tab==='app')loadApps();
+  if(tab==='fil')loadVideos();
+  if(tab==='sys'){loadSys();loadHistory();loadScreenTimeAndPrivacy();}
+}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>goTab(b.dataset.t));
+
+function openUnusedApps(){
+  goTab('app');
+  $('#af').value='old';
+  renderApps();
+}
+function openCacheApps(){
+  goTab('app');
+  $('#af').value='cache';
+  renderApps();
+}
+
+window.handleBack=()=>{
+  if(lbId!==null){closeLb();return true;}
+  if(activeTab!=='home'){goTab('home');return true;}
+  return false;
+};
+
+let progTimer=null,pollStart=0,sawRun=false;
+function startProgressPoll(){
+  clearInterval(progTimer);
+  pollStart=Date.now();sawRun=false;
+  progTimer=setInterval(()=>{
+    try{
+      const cp=J(N.cacheProgress());
+      const box=$('#cache-prog-box');
+      if(cp.run){
+        sawRun=true;
+        box.style.display='block';
+        const pct=cp.tot>0?Math.min(100,Math.round(cp.cur/cp.tot*100)):0;
+        $('#cp-bar').style.width=pct+'%';
+        $('#cp-title').textContent=`Keş təmizlənir (${cp.cur}/${cp.tot})`;
+        $('#cp-sub').textContent=`Hazırda: ${cp.app||'...'}`;
+      }else{
+        if(!sawRun&&Date.now()-pollStart<3000)return;
+        box.style.display='none';
+        clearInterval(progTimer);
+        if(pendingResult){const pr=pendingResult;pendingResult=null;showResult({ram:pr.ram,apps:pr.apps,cacheBytes:sawRun?(cp.bytes||0):0,caches:sawRun?(cp.done||0):0});}
+      }
+    }catch(e){clearInterval(progTimer);}
+  },500);
+}
+
+let homeRunningList=[];
+function loadHomeRunning(){
+  try{
+    homeRunningList=J(N.runningApps());
+    $('#run-cnt-badge').textContent=homeRunningList.length;
+    const stopBtn=$('#btn-stop-all-home');
+    const nonWl=homeRunningList.filter(x=>!x.wl);
+    stopBtn.style.display=nonWl.length?'inline-block':'none';
+
+    if(!homeRunningList.length){
+      $('#home-run-list').innerHTML='<p class="note" style="margin:0">Hazırda arxa planda açıq əlavə tətbiq yoxdur ✨</p>';
+      return;
+    }
+    const preview=homeRunningList.slice(0,5);
+    let html=preview.map(x=>{
+      const icHtml=x.ic?`<img class="app-ic" src="data:image/webp;base64,${x.ic}">`:`<div class="app-ic"></div>`;
+      const caTxt=x.ca?` · Keş: ${fmt(x.ca)}`:'';
+      return `<div class="li">
+        <div class="app-l">${icHtml}
+          <div class="app-tx">
+            <div class="app-nm">${esc(x.n)} ${x.wl?'⭐':''}</div>
+            <div class="note"><span class="blue">${esc(x.st)}</span>${caTxt}</div>
+          </div>
+        </div>
+        <div class="row" style="flex-shrink:0">
+          ${f==='cache'?`<button class="cache-btn m" onclick="cleanSingleCache('${x.p}','${esc(x.n)}',${x.ca})">Keş</button>`:`<button class="st m" onclick="stopOneApp('${x.p}','${esc(x.n)}')">Dayandır</button>`}
+        </div>
+      </div>`;
+    }).join('');
+    if(homeRunningList.length>5){
+      html+=`<div style="margin-top:8px;text-align:center"><button class="s m" onclick="goTab('app');$('#af').value='running';renderApps()">Hamısına bax (${homeRunningList.length} tətbiq)</button></div>`;
+    }
+    $('#home-run-list').innerHTML=html;
+  }catch(e){}
+}
+
+function stopOneApp(pkg,name){
+  const r=J(N.stopApp(pkg));
+  toast(`${name} dayandırıldı · ~${r.mb} MB RAM azad edildi`);
+  info();
+  if($('#p-app').classList.contains('on'))loadApps();
+}
+
+function stopAllRunningHome(){
+  const pkgs=homeRunningList.filter(x=>!x.wl).map(x=>x.p);
+  if(!pkgs.length)return toast('Dayandırılacaq tətbiq yoxdur (qorunanlar saxlanıldı)');
+  const r=J(N.stopAppsBatch(JSON.stringify(pkgs)));
+  toast(`${r.n} açıq tətbiq dayandırıldı · ~${r.mb} MB RAM azad edildi`);
+  info();
+}
+
+function info(){
+  try{
+    const r=J(N.ram()),s=J(N.storage()),ru=r.t-r.a,su=s.t-s.f;
+    const rp=ru/r.t*100,sp=su/s.t*100;
+    $('#rb').style.width=rp+'%';
+    $('#rbar').className='bar'+(rp>85?' er':rp>70?' wr':'');
+    $('#rt').textContent=`RAM: ${fmt(ru)} istifadədə / ${fmt(r.t)}`;
+    $('#sb').style.width=sp+'%';
+    $('#sbar').className='bar'+(sp>88?' er':sp>75?' wr':'');
+    $('#st').textContent=`Yaddaş: ${fmt(su)} dolu / ${fmt(s.t)} (boş: ${fmt(s.f)})`;
+    const sys=J(N.sysInfo());
+    $('#bat-mini').textContent=`🔋 ${sys.bp}% · ${sys.bt}°C`;
+    $('#dev-badge').textContent=sys.dev;
+
+    const cs=J(N.cacheSummary());
+    $('#cache-tot-lbl').textContent=cs.usage?`${fmt(cs.bytes)} · ${cs.count} tətbiq`:'Hazır';
+    $('#acc-warn').style.display=cs.acc?'none':'block';
+    $('#btn-usage-home').style.display=cs.usage?'none':'inline-block';
+    updateHome(r,s,sys,cs);
+  }catch(e){}
+  loadHomeRunning();
+  loadHistory();
+}
+
+function cleanRamOnly(){
+  toast('RAM təmizlənir…');
+  setTimeout(()=>{
+    const r=J(N.kill());
+    const wlMsg=r.s?` (${r.s} qorunan saxlanıldı)`:'';
+    toast(`${r.n} tətbiq dayandırıldı · ~${r.mb} MB RAM azad${wlMsg}`);
+    showResult({ram:r.mb,apps:r.n});
+    info();
+  },60);
+}
+
+function cleanCacheOnly(){
+  const res=J(N.cleanAllCacheNow());
+  if(!res.ok){
+    if(res.reason==='NO_ACC'){
+      $('#acc-warn').style.display='block';
+      toast('Əvvəlcə Əlçatanlıq xidmətində "Təmiz Telefon"u aktiv edin');
+      setTimeout(()=>N.openAccessibility(),900);
+    }else if(res.reason==='EMPTY'){
+      toast('Təmizlənəcək keş tapılmadı — telefon təmizdir!');
+    }
+    return;
+  }
+  pendingResult={ram:0,apps:0};
+  startProgressPoll();
+  toast(`${res.count} tətbiqin keşi (${fmt(res.bytes)}) təmizlənir…`);
+}
+
+function cleanAllOneClick(){
+  toast('RAM + Bütün keşlər təmizlənir…');
+  setTimeout(()=>{
+    const r=J(N.kill());
+    const res=J(N.cleanAllCacheNow());
+    if(!res.ok && res.reason==='NO_ACC'){
+      $('#acc-warn').style.display='block';
+      toast(`RAM azad edildi (${r.mb} MB). Bütün keşlər üçün Əlçatanlıq icazəsini aktiv edin!`);
+      showResult({ram:r.mb,apps:r.n});
+      info();
+      setTimeout(()=>N.openAccessibility(),1100);
+      return;
+    }
+    if(!res.ok && res.reason==='EMPTY'){
+      toast(`${r.n} tətbiq dayandırıldı (${r.mb} MB RAM azad) · Keşlər artıq təmizdir`);
+      showResult({ram:r.mb,apps:r.n});
+      info();
+      return;
+    }
+    pendingResult={ram:r.mb,apps:r.n};
+    startProgressPoll();
+    toast(`RAM (${r.mb} MB) azad edildi · ${res.count} tətbiqin keşi (${fmt(res.bytes)}) təmizlənir…`);
+  },60);
+}
+
+// --- TƏTBİQLƏR + AÇIQ PROQRAMLAR + UZUN MÜDDƏT İSTİFADƏ OLUNMAYANLAR ---
+let apps=[],currentFilteredApps=[];
+function loadApps(){
+  $('#perm').style.display=N.hasUsage()?'none':'block';
+  apps=J(N.apps());
+  renderApps();
+}
+function toggleAppWl(pkg,idx){
+  const added=N.toggleWl(pkg);
+  apps[idx].wl=added;
+  toast(added?'Ağ siyahıya əlavə edildi (təmizlikdə dayandırılmayacaq)':'Ağ siyahıdan çıxarıldı');
+  renderApps();
+  loadHomeRunning();
+}
+function formatUnusedText(x,now){
+  const f=$('#af').value;
+  if(f==='cache'){
+    return `<span class="${x.ca>10e6?'warn':'ok'}">Keş: <b>${fmt(x.ca)}</b></span> · Ümumi: ${fmt(x.sz)}`;
+  }
+  const refTs=x.l>0?x.l:x.i;
+  const days=Math.max(0,Math.floor((now-refTs)/864e5));
+  if(x.run){
+    return `<span class="ok">🟢 Arxa planda açıqdır</span> · Keş: ${fmt(x.ca)}`;
+  }
+  if(x.l>0){
+    const dStr=fmtDate(x.l);
+    if(days===0)return `Bu gün istifadə olunub (${dStr}) · Keş: ${fmt(x.ca)}`;
+    return `<span class="${days>=30?'red':'warn'}">${days} gün istifadə olunmayıb</span> (${dStr}) · ${fmt(x.sz)}`;
+  }
+  return `<span class="red">Heç vaxt açılmayıb</span> (${days} gün əvvəl quraşdırılıb) · ${fmt(x.sz)}`;
+}
+function renderApps(){
+  const now=Date.now(),f=$('#af').value,q=($('#aq').value||'').toLowerCase().trim();
+  let a=apps.map((x,idx)=>({...x,_i:idx,d:Math.floor((now-(x.l||x.i))/864e5)}));
+  if(q)a=a.filter(x=>x.n.toLowerCase().includes(q)||x.p.toLowerCase().includes(q));
+
+  if(f==='running'){
+    a=a.filter(x=>x.run).sort((p,q)=>q.l-p.l);
+  }else if(f==='old'){
+    a=a.filter(x=>x.d>=30).sort((p,q)=>q.d-p.d);
+  }else if(f==='unusedAll'){
+    a.sort((p,q)=>q.d-p.d);
+  }else if(f==='cache'){
+    a=a.filter(x=>x.ca>1024).sort((p,q)=>q.ca-p.ca);
+  }else if(f==='size'){
+    a.sort((p,q)=>q.sz-p.sz);
+  }else if(f==='wl'){
+    a=a.filter(x=>x.wl);
+  }else{
+    a.sort((p,q)=>p.n.localeCompare(q.n));
+  }
+
+  currentFilteredApps=a;
+  const batchBtn=$('#btn-batch-app');
+  const stoppable=a.filter(x=>!x.wl);
+  if(f==='cache' && stoppable.length>0){
+    batchBtn.style.display='inline-block';
+    batchBtn.className='cache-btn m';
+    batchBtn.textContent=`Hamısının keşini sil (${stoppable.length})`;
+  }else if((f==='running'||f==='old') && stoppable.length>0){
+    batchBtn.style.display='inline-block';
+    batchBtn.className='st m';
+    batchBtn.textContent=`Hamısını dayandır (${stoppable.length})`;
+  }else{
+    batchBtn.style.display='none';
+  }
+
+  $('#acnt').textContent=`${a.length} tətbiq göstərilir`;
+  $('#apps').innerHTML=a.slice(0,220).map(x=>{
+    const subTxt=formatUnusedText(x,now);
+    const icHtml=x.ic?`<img class="app-ic" src="data:image/webp;base64,${x.ic}">`:`<div class="app-ic"></div>`;
+    return `<div class="li">
+      <div class="app-l">${icHtml}
+        <div class="app-tx">
+          <div class="app-nm">${esc(x.n)}</div>
+          <div class="note">${subTxt}</div>
+        </div>
+      </div>
+      <div class="row" style="flex-shrink:0;gap:5px">
+        <button class="${x.wl?'wl':'s'} m" onclick="toggleAppWl('${x.p}',${x._i})" title="Qoru">${x.wl?'⭐':'☆'}</button>
+        ${f==='cache'?`<button class="cache-btn m" onclick="cleanSingleCache('${x.p}','${esc(x.n)}',${x.ca})">Keş</button>`:`<button class="st m" onclick="stopOneApp('${x.p}','${esc(x.n)}')">Dayandır</button>`}
+        <button class="d m" onclick="N.uninstall('${x.p}')">Sil</button>
+      </div>
+    </div>`;
+  }).join('')||'<p class="note">Bu kateqoriyada tətbiq tapılmadı.</p>';
+}
+
+function cleanSingleCache(pkg,name,ca){
+  const r=J(N.cleanSingleAppCache(pkg,name,ca));
+  if(!r.ok && r.reason==='NO_ACC'){
+    toast('Əvvəlcə Əlçatanlıq xidmətində "Təmiz Telefon"u aktiv edin');
+    setTimeout(()=>N.openAccessibility(),900);
+    return;
+  }
+  startProgressPoll();
+}
+function batchActionForFilter(){
+  if($('#af').value==='cache'){
+    cleanCacheOnly();
+    return;
+  }
+  const pkgs=currentFilteredApps.filter(x=>!x.wl).map(x=>x.p);
+  if(!pkgs.length)return toast('Dayandırılacaq tətbiq yoxdur');
+  const r=J(N.stopAppsBatch(JSON.stringify(pkgs)));
+  toast(`${r.n} tətbiq dayandırıldı · ~${r.mb} MB RAM azad edildi`);
+  loadApps();
+  info();
+}
+
+// --- INDEXEDDB KEŞİ ---
+function openCacheDB(){
+  return new Promise(res=>{
+    try{
+      const req=indexedDB.open('TemizCacheDB',1);
+      req.onupgradeneeded=e=>e.target.result.createObjectStore('img');
+      req.onsuccess=e=>res(e.target.result);
+      req.onerror=()=>res(null);
+    }catch(e){res(null)}
+  });
+}
+async function getCached(db,key){
+  if(!db)return null;
+  return new Promise(res=>{
+    try{
+      const tx=db.transaction('img','readonly').objectStore('img').get(key);
+      tx.onsuccess=()=>res(tx.result||null);
+      tx.onerror=()=>res(null);
+    }catch(e){res(null)}
+  });
+}
+async function putCached(db,key,val){
+  if(!db)return;
+  try{db.transaction('img','readwrite').objectStore('img').put(val,key)}catch(e){}
+}
+async function clearCache(){
+  try{indexedDB.deleteDatabase('TemizCacheDB');toast('Analiz keşi sıfırlandı')}catch(e){}
+}
+
+// --- AĞILLI QALEREYA ANALİZİ ("ƏN YAXŞISINI SAXLA") ---
+let items=[],sel=new Set(),activeCat='dup',lbId=null;
+function pc(x){x=x-((x>>1)&0x55555555);x=(x&0x33333333)+((x>>2)&0x33333333);return(((x+(x>>4))&0x0f0f0f0f)*0x01010101)>>24}
+
+async function scan(){
+  if(!N.hasMedia()){
+    toast('Şəkillərə giriş icazəsi tələb olunur...');
+    N.requestMediaPerm();
+    return;
+  }
+  items=[];sel.clear();
+  const db=await openCacheDB();
+  const lim=+$('#lim').value,tot=Math.min(N.total(),lim);
+  const c9=document.createElement('canvas');c9.width=9;c9.height=8;const x9=c9.getContext('2d',{willReadFrequently:true});
+  const c96=document.createElement('canvas');c96.width=c96.height=96;const x96=c96.getContext('2d',{willReadFrequently:true});
+  let hits=0;
+
+  for(let o=0;o<tot;o+=40){
+    const page=J(N.images(o,Math.min(40,tot-o)));
+    for(const p of page){
+      const folder=(p.b+' '+p.r).toLowerCase();
+      const isShot=folder.includes('screenshot');
+      const isMsg=folder.includes('whatsapp')||folder.includes('telegram');
+      const it={id:p.id,n:p.n,size:p.s,w:p.w,h:p.h,px:p.w*p.h,b:p.b||p.r||'Qalereya',t:p.t,lap:999,dup:false,bestKeep:false,visited:false,hash:null,shot:isShot,msg:isMsg};
+      const cKey=p.id+'_'+p.s;
+      const cached=await getCached(db,cKey);
+      if(cached){
+        it.hash=cached.hash;it.lap=cached.lap;hits++;
+      }else if(p.t){
+        try{
+          const im=new Image();im.src='data:image/jpeg;base64,'+p.t;await im.decode();
+          x9.drawImage(im,0,0,9,8);const g=x9.getImageData(0,0,9,8).data;let a=0,b=0;
+          for(let r=0;r<8;r++)for(let q=0;q<8;q++){
+            const i=(r*9+q)*4,j=i+4,bit=(g[i]+g[i+1]+g[i+2])>(g[j]+g[j+1]+g[j+2])?1:0,k=r*8+q;
+            if(k<32)a|=bit<<k;else b|=bit<<(k-32);
+          }
+          it.hash=[a,b];
+          x96.drawImage(im,0,0,96,96);const d=x96.getImageData(0,0,96,96).data,gr=new Float32Array(9216);
+          for(let k=0;k<9216;k++)gr[k]=.299*d[k*4]+.587*d[k*4+1]+.114*d[k*4+2];
+          let s=0,s2=0,n=0;
+          for(let r=1;r<95;r++)for(let q=1;q<95;q++){
+            const i=r*96+q,l=4*gr[i]-gr[i-1]-gr[i+1]-gr[i-96]-gr[i+96];
+            s+=l;s2+=l*l;n++;
+          }
+          it.lap=Math.sqrt(s2/n-(s/n)**2);
+          putCached(db,cKey,{hash:it.hash,lap:it.lap});
+        }catch(e){}
+      }
+      items.push(it);
+    }
+    $('#prog').textContent=`Analiz: ${items.length} / ${tot}`;
+    await tick();
+  }
+
+  // Cluster duplicates and pick the sharpest/highest-resolution original as bestKeep
+  for(let i=0;i<items.length;i++){
+    const A=items[i];
+    if(A.visited||!A.hash)continue;
+    const cluster=[A];
+    A.visited=true;
+    for(let j=i+1;j<items.length;j++){
+      const B=items[j];
+      if(!B.visited&&B.hash&&pc(A.hash[0]^B.hash[0])+pc(A.hash[1]^B.hash[1])<=4){
+        B.visited=true;
+        cluster.push(B);
+      }
+    }
+    if(cluster.length>1){
+      // Quality score: resolution + sharpness + file size
+      cluster.sort((x,y)=>((y.px/1e5)+(y.lap*2)+(y.size/1e6))-((x.px/1e5)+(x.lap*2)+(x.size/1e6)));
+      cluster[0].bestKeep=true;
+      for(let k=1;k<cluster.length;k++){
+        cluster[k].dup=true;
+      }
+    }
+  }
+
+  $('#cache-tag').textContent=hits?`⚡ ${hits} keşdən`:'';
+  $('#prog').textContent=`Tamamlandı: ${items.length} şəkil analiz edildi.`;
+  renderGal();
+}
+
+function renderGal(){
+  if(!items.length)return;
+  const th=+$('#sens').value;
+  const cat={dup:[],blur:[],shot:[],msg:[],low:[],big:[]};
+  items.forEach(it=>{
+    if(it.dup||it.bestKeep)cat.dup.push(it);
+    if(it.lap<th)cat.blur.push(it);
+    if(it.shot)cat.shot.push(it);
+    if(it.msg)cat.msg.push(it);
+    if(it.px&&it.px<5e5)cat.low.push(it);
+    if(it.size>10e6)cat.big.push(it);
+  });
+  window._cat=cat;
+  const dupCopiesCount=items.filter(x=>x.dup).length;
+  const labels={
+    dup:`Təkrar (${dupCopiesCount} nüsxə)`,
+    blur:`Bulanıq (${cat.blur.length})`,
+    shot:`Screenshots (${cat.shot.length})`,
+    msg:`Mesajlaşma (${cat.msg.length})`,
+    low:`Aşağı keyfiyyət (${cat.low.length})`,
+    big:`Böyük >10MB (${cat.big.length})`
+  };
+  const pills=$('#gal-cats');
+  pills.style.display='flex';
+  pills.innerHTML=Object.keys(labels).map(k=>`<button class="pill ${activeCat===k?'on':''}" onclick="activeCat='${k}';renderGal()">${labels[k]}</button>`).join('');
+
+  const list=cat[activeCat]||[];
+  const btnLabel=activeCat==='dup'?'Dublikatları seç (ən yaxşısını saxla)':'Hamısını seç';
+  $('#res').innerHTML=`<div class="card">
+    <h3>${labels[activeCat]} ${list.length?`<button class="s m" onclick="selCat('${activeCat}')">${btnLabel}</button>`:''}</h3>
+    ${list.length?`<div class="grid">${list.slice(0,180).map(i=>`
+      <div class="th ${sel.has(i.id)?'sel':''}">
+        <img src="data:image/jpeg;base64,${i.t}" onclick="openLb(${i.id})">
+        ${(activeCat==='dup'&&i.bestKeep)?'<div class="best-tag">ƏN YAXŞI</div>':''}
+        <div class="chk" onclick="event.stopPropagation();tg(${i.id})">${sel.has(i.id)?'✓':''}</div>
+        <small><span>${fmt(i.size)}</span></small>
+      </div>`).join('')}</div>`:'<p class="note">Bu kateqoriyada şəkil tapılmadı.</p>'}
+  </div>`;
+
+  const s=items.filter(i=>sel.has(i.id)).reduce((a,i)=>a+i.size,0);
+  $('#delbox').style.display=sel.size?'block':'none';
+  $('#selinfo').textContent=`${sel.size} şəkil seçilib · ${fmt(s)} boşalacaq`;
+}
+function tg(id){sel.has(id)?sel.delete(id):sel.add(id);renderGal()}
+function selCat(k){
+  if(k==='dup'){
+    items.filter(i=>i.dup).forEach(i=>sel.add(i.id));
+    toast('Ən keyfiyyətli orijinallar qorundu, yalnız nüsxələr seçildi');
+  }else{
+    (window._cat[k]||[]).forEach(i=>sel.add(i.id));
+  }
+  renderGal();
+}
+window.onDel=ok=>{
+  if(ok){items=items.filter(i=>!sel.has(i.id));toast('Seçilən şəkillər silindi');info();}
+  else toast('Silmə ləğv edildi');
+  sel.clear();renderGal();
+};
+
+// --- TAM EKRAN LIGHTBOX ---
+function openLb(id){
+  const it=items.find(x=>x.id===id);if(!it)return;
+  lbId=id;
+  $('#lb-title').textContent=it.n;
+  $('#lb-meta').textContent=`Ölçü: ${fmt(it.size)} · ${it.w}×${it.h} px · Qovluq: ${it.b}`;
+  $('#lb-img').src='data:image/jpeg;base64,'+it.t;
+  $('#lb-sel-btn').textContent=sel.has(id)?'Seçimi ləğv et':'Silmək üçün seç';
+  $('#lb-sel-btn').className=sel.has(id)?'d':'';
+  $('#lb').style.display='flex';
+  setTimeout(()=>{
+    const hi=N.fullImage(id);
+    if(hi&&lbId===id)$('#lb-img').src='data:image/jpeg;base64,'+hi;
+  },30);
+}
+function closeLb(){lbId=null;$('#lb').style.display='none'}
+function toggleLbSel(){if(lbId!==null){tg(lbId);openLb(lbId)}}
+
+// --- VİDEOLAR, EKRAN QEYDLƏRİ, APK VƏ BÖYÜK FAYLLAR ---
+let vids=[],vsel=new Set(),vidFilter='all',allDocs=[],docFilter='all';
+function setVidFilter(f){
+  vidFilter=f;
+  ['all','rec','msg'].forEach(k=>$('#vp-'+k).classList.toggle('on',k===f));
+  renderVideos();
+}
+function loadVideos(){
+  if(!N.hasVideo()){
+    $('#vids').innerHTML='<p class="note">Videolara giriş icazəsi verilməyib.</p><button class="m" onclick="N.requestMediaPerm()">İcazə ver</button>';
+    return;
+  }
+  vids=J(N.videos(100));
+  renderVideos();
+}
+function renderVideos(){
+  let list=vids;
+  if(vidFilter==='rec'){
+    list=vids.filter(v=>((v.b+' '+v.r+' '+v.n).toLowerCase()).includes('screen'));
+  }else if(vidFilter==='msg'){
+    list=vids.filter(v=>{
+      const s=(v.b+' '+v.r).toLowerCase();
+      return s.includes('whatsapp')||s.includes('telegram');
+    });
+  }
+  $('#vids').innerHTML=list.length?`<div class="grid">${list.map(v=>`
+    <div class="th ${vsel.has(v.id)?'sel':''}" onclick="tgVid(${v.id})">
+      <img src="data:image/jpeg;base64,${v.t}">
+      <div class="chk">${vsel.has(v.id)?'✓':''}</div>
+      <small><span>${fmt(v.s)}</span><span>${fmtDur(v.d)}</span></small>
+    </div>`).join('')}</div>`:'<p class="note">Bu kateqoriyada video tapılmadı.</p>';
+  const tot=vids.filter(v=>vsel.has(v.id)).reduce((a,v)=>a+v.s,0);
+  $('#vdelbox').style.display=vsel.size?'block':'none';
+  $('#vselinfo').textContent=`${vsel.size} video seçilib · ${fmt(tot)} boşalacaq`;
+}
+function tgVid(id){vsel.has(id)?vsel.delete(id):vsel.add(id);renderVideos()}
+window.onDelVid=ok=>{
+  if(ok){vids=vids.filter(v=>!vsel.has(v.id));toast('Videolar silindi');info();}
+  else toast('Silmə ləğv edildi');
+  vsel.clear();renderVideos();
+};
+function setDocFilter(f){
+  docFilter=f;
+  ['all','apk','dup','old'].forEach(k=>$('#dp-'+k).classList.toggle('on',k===f));
+  renderDocs();
+}
+function loadDocs(){
+  allDocs=J(N.largeFiles());
+  renderDocs();
+}
+function renderDocs(){
+  let list=allDocs;
+  if(docFilter==='apk')list=allDocs.filter(d=>d.apk);
+  else if(docFilter==='dup')list=allDocs.filter(d=>d.dup);
+  else if(docFilter==='old')list=allDocs.filter(d=>d.d&&Date.now()-d.d>90*864e5);
+
+  $('#docs').innerHTML=list.map(d=>{
+    let badges='';
+    if(d.apk)badges+=`<span class="tag-chip ${d.apkSt.includes('Artıq')?'ok':'er'}">APK · ${esc(d.apkSt||'Paket')}</span>`;
+    if(d.dup)badges+=`<span class="tag-chip er">Təkrar nüsxə</span>`;
+    return `<div class="li">
+      <div class="app-tx">
+        <div class="app-nm">${esc(d.n)}</div>
+        <div class="note">${fmt(d.s)} · ${esc(d.r||'Daxili yaddaş')}${d.d?' · '+fmtDate(d.d):''}</div>
+        ${badges?`<div>${badges}</div>`:''}
+      </div>
+      <div class="row" style="flex-wrap:nowrap"><button class="s m" onclick="N.openDownloads()">Aç</button><button class="st m" onclick="delDoc(${d.id})">Sil</button></div>
+    </div>`;
+  }).join('')||'<p class="note">Bu kateqoriyada böyük fayl və ya APK tapılmadı.</p>';
+}
+
+// --- SİSTEM, BATAREYA, EKRAN VAXTI, MƏXFİLİK VƏ CƏDVƏL ---
+function loadSys(){
+  renderTimeline();
+  try{
+    const s=J(N.sysInfo());
+    $('#bb').style.width=s.bp+'%';
+    $('#bbar').className='bar'+(s.bp<20?' er':s.bt>41?' wr':'');
+    $('#bt-main').textContent=`Batareya: ${s.bp}% (${s.bc?'Enerji yığır ⚡':'Batareyada'}) · ${s.dev} (${s.ver})`;
+    $('#b-temp').textContent=s.bt+'°C';
+    $('#b-volt').textContent=s.bv.toFixed(2)+' V';
+    $('#b-hlth').textContent=s.bh;
+    $('#bat-limit').value=String(s.batLimit);
+    $('#bat-heat').checked=s.batHeat!==false;
+    $('#bopt-note').textContent=s.opt
+      ?'✓ Batareya optimallaşdırması söndürülüb — saatlıq avtomatik təmizlik arxa planda tam gücü ilə işləyəcək.'
+      :'⚠️ Hər 1 saatlıq arxa plan təmizliyinin gecikməməsi üçün "Batareya məhdudiyyətini söndür" düyməsinə toxunun.';
+  }catch(e){}
+}
+function saveBatGuard(){
+  const lim=+$('#bat-limit').value;
+  const heat=$('#bat-heat').checked;
+  N.setBatteryGuard(lim,heat);
+  toast(lim>0?`Batareya ${lim}% həddinə çatanda xəbərdarlıq ediləcək`:'Şarj həddi siqnalı söndürüldü');
+}
+function loadScreenTimeAndPrivacy(){
+  try{
+    const all=J(N.apps());
+    const topFg=all.filter(x=>x.fg>60000).sort((a,b)=>b.fg-a.fg).slice(0,8);
+    $('#screen-time-list').innerHTML=topFg.length?topFg.map(x=>`
+      <div class="li">
+        <span class="app-nm" style="max-width:62%">${esc(x.n)}</span>
+        <span class="blue" style="font-weight:600">${fmtHours(x.fg)}</span>
+      </div>`).join(''):'<p class="note">Ekran vaxtı məlumatı üçün İstifadə İcazəsini aktiv edin.</p>';
+  }catch(e){}
+
+  try{
+    const priv=J(N.privacyAudit());
+    $('#priv-list').innerHTML=priv.length?priv.slice(0,25).map(x=>`
+      <div class="li">
+        <div class="app-tx">
+          <div class="app-nm">${esc(x.n)}</div>
+          <div>${x.perms.map(pm=>`<span class="tag-chip ${pm==='Kamera'||pm==='Mikrofon'||pm==='SMS'?'er':''}">${esc(pm)}</span>`).join('')}</div>
+        </div>
+        <button class="s m" onclick="N.openApp('${x.p}')">Ayarlar</button>
+      </div>`).join(''):'<p class="note">Həssas icazəli əlavə tətbiq tapılmadı.</p>';
+  }catch(e){}
+}
+function loadHistory(){
+  try{
+    const h=J(N.history());
+    const totMb=h.reduce((a,x)=>a+(x.mb||0),0);
+    const totCacheMb=h.reduce((a,x)=>a+(x.cmb||0),0);
+    $('#st-mb').textContent=totMb>=1024?(totMb/1024).toFixed(1)+' GB':totMb+' MB';
+    $('#st-cache').textContent=totCacheMb>=1024?(totCacheMb/1024).toFixed(1)+' GB':totCacheMb+' MB';
+    $('#st-cnt').textContent=h.length;
+
+    const chart=$('#hchart');
+    const list=$('#hlist');
+    if(!chart||!list)return;
+    if(!h.length){chart.innerHTML='';list.innerHTML='<p class="note">Hələ təmizlik qeydi yoxdur.</p>';return;}
+    const rev=[...h].slice(0,14).reverse();
+    const maxV=Math.max(10,...rev.map(x=>(x.mb||0)+(x.cmb||0)||1));
+    chart.innerHTML=rev.map(x=>`<i style="height:${Math.max(8,Math.round(((x.mb||0)+(x.cmb||0)||1)/maxV*100))}%"></i>`).join('');
+    list.innerHTML=h.slice(0,10).map(x=>{
+      const dt=new Date(x.t);
+      const ts=String(dt.getDate()).padStart(2,'0')+'.'+String(dt.getMonth()+1).padStart(2,'0')+' '+String(dt.getHours()).padStart(2,'0')+':'+String(dt.getMinutes()).padStart(2,'0');
+      if((x.cn||0)>0){
+        return `<div class="li"><span>${ts} — <b>${x.cn}</b> tətbiqin keşi silindi</span><span class="ok">+${x.cmb} MB keş</span></div>`;
+      }
+      return `<div class="li"><span>${ts} — <b>${x.n}</b> tətbiq dayandırıldı</span><span class="ok">+${x.mb} MB RAM</span></div>`;
+    }).join('');
+  }catch(e){}
+}
+function saveHourly(){
+  const on=$('#hourly-on').checked;
+  const cOn=$('#hourly-cache').checked;
+  N.setHourly(on,cOn);
+  $('#hourly-pill').style.display=on?'inline-block':'none';
+  toast(on?'Hər 1 saatdan bir avtomatik RAM + Keş təmizliyi aktivdir':'Saatlıq avtomatik təmizlik söndürüldü');
+}
+function saveSch(){
+  const [h,m]=$('#stime').value.split(':').map(Number);
+  N.schedule($('#son').checked,h,m,+$('#sdays').value,$('#snote').checked);
+  toast('Gündəlik təmizlik cədvəli saxlandı');
+}
+function loadSch(){
+  const s=J(N.getSch());
+  $('#son').checked=s.on;
+  $('#stime').value=String(s.h).padStart(2,'0')+':'+String(s.m).padStart(2,'0');
+  $('#sdays').value=s.d;
+  $('#snote').checked=s.n;
+  $('#hourly-on').checked=s.hourlyOn!==false;
+  $('#hourly-cache').checked=s.hourlyCache!==false;
+  $('#hourly-pill').style.display=(s.hourlyOn!==false)?'inline-block':'none';
+}
+
+// ================= v4.0 ƏLAVƏLƏR =================
+
+// ---- Tema ----
+function setTheme(t){
+  document.documentElement.setAttribute('data-theme',t);
+  try{localStorage.setItem('theme',t)}catch(e){}
+  const sel=$('#theme-sel');if(sel)sel.value=t;
+}
+(function(){let t='dark';try{t=localStorage.getItem('theme')||'dark'}catch(e){}setTheme(t)})();
+
+// ---- Nəticə pəncərəsi ----
+let pendingResult=null,lastResultText='';
+function showResult(o){
+  const ram=o.ram||0,cb=o.cacheBytes||0,apps=(o.apps||0)+(o.caches||0);
+  const totalBytes=ram*1048576+cb;
+  $('#res-big').textContent=totalBytes>0?fmt(totalBytes):'Təmizdir 👌';
+  $('#res-sub').textContent=totalBytes>0?'azad edildi':'Telefon artıq təmizdir';
+  $('#rs-ram').textContent=ram;
+  $('#rs-cache').textContent=cb>0?fmt(cb):'0';
+  $('#rs-apps').textContent=apps;
+  lastResultText=`🧹 Təmiz Telefon: ${totalBytes>0?fmt(totalBytes):'0 MB'} azad etdim (RAM ${ram} MB, keş ${cb>0?fmt(cb):'0'}, ${apps} tətbiq).`;
+  $('#res-modal').style.display='flex';
+}
+function closeResult(){$('#res-modal').style.display='none'}
+function shareResult(){try{N.shareText(lastResultText)}catch(e){}}
+
+// ---- Ev səhifəsi: sağlamlıq balı, tövsiyələr, yaddaş tərkibi, yoxlama siyahısı ----
+let _brkAt=0;
+function updateHome(r,s,sys,cs){
+  try{
+    const rp=(r.t-r.a)/r.t*100,sp=(s.t-s.f)/s.t*100;
+    let score=100;const tips=[];
+    if(sp>90)score-=30;else if(sp>80)score-=18;else if(sp>70)score-=8;
+    if(rp>90)score-=12;else if(rp>80)score-=6;
+    if(cs&&cs.usage){
+      if(cs.bytes>2e9)score-=12;else if(cs.bytes>1e9)score-=7;else if(cs.bytes>5e8)score-=3;
+    }
+    if(sys.bt>=42)score-=10;else if(sys.bt>=38)score-=4;
+    if(sys.bh&&sys.bh!=='Sağlam'&&sys.bh!=='Normal')score-=10;
+    score=Math.max(5,Math.min(100,Math.round(score)));
+    const col=score>=85?'var(--ac)':score>=70?'#8fd66a':score>=50?'var(--wr)':'var(--er)';
+    const lbl=score>=85?'Əla':score>=70?'Yaxşı':score>=50?'Orta':'Zəif';
+    $('#hs-num').textContent=score;
+    $('#hs-num').style.color=col;
+    const arc=$('#hs-arc');arc.style.stroke=col;
+    arc.setAttribute('stroke-dasharray',(214*score/100).toFixed(1)+' 214');
+    $('#hs-badge').textContent=lbl;
+    $('#hs-txt').textContent=`Yaddaş ${Math.round(sp)}% dolu · RAM ${Math.round(rp)}% · ${sys.bp}% batareya, ${sys.bt}°C`;
+
+    if(sp>80)tips.push({t:`Yaddaş ${Math.round(sp)}% doludur. Mesajlaşma medialarını yoxla.`,b:'Aç',f:"goTab('fil');switchFil('msg')"});
+    if(cs&&cs.usage&&cs.bytes>5e8)tips.push({t:`Tətbiq keşləri ${fmt(cs.bytes)} yer tutur.`,b:'Təmizlə',f:'cleanCacheOnly()'});
+    if(sys.bt>=40)tips.push({t:`Telefon isti (${sys.bt}°C). Ağır tətbiqləri bağla.`,b:'RAM təmizlə',f:'cleanRamOnly()'});
+    if(rp>85)tips.push({t:`RAM ${Math.round(rp)}% dolu.`,b:'Boşalt',f:'cleanRamOnly()'});
+    const fc=calcForecast();
+    if(fc&&fc.days!==null&&fc.days<30)tips.push({t:`Bu templə yaddaş ~${Math.max(1,Math.round(fc.days))} gün sonra dolacaq.`,b:'Zibil fayllar',f:"goTab('fil');switchFil('junk')"});
+    $('#hs-tips').innerHTML=tips.slice(0,4).map(x=>`<div class="tip"><span>${esc(x.t)}</span><button class="s m" onclick="${x.f}">${x.b}</button></div>`).join('');
+  }catch(e){}
+
+  // yoxlama siyahısı
+  try{
+    const items=[
+      {n:'Şəkil və video girişi',ok:N.hasMedia()&&N.hasVideo(),f:'N.requestMediaPerm()'},
+      {n:'Səs faylları və bildirişlər',ok:N.hasAudio()&&N.hasNotif(),f:'N.requestMediaPerm()'},
+      {n:'Əlçatanlıq (keş təmizliyi)',ok:!!(cs&&cs.acc),f:'N.openAccessibility()'},
+      {n:'İstifadə statistikası girişi',ok:!!(cs&&cs.usage),f:'N.openUsage()'},
+      {n:'Batareya məhdudiyyəti söndürülüb',ok:!!sys.opt,f:'N.requestIgnoreBatteryOpt()'},
+      {n:'Bütün fayllara giriş (zibil skaneri)',ok:N.hasAllFiles(),f:'N.openAllFiles()'}
+    ];
+    const missing=items.filter(x=>!x.ok);
+    $('#setup-card').style.display=missing.length?'block':'none';
+    $('#setup-cnt').textContent=`${items.length-missing.length}/${items.length}`;
+    $('#setup-list').innerHTML=missing.map(x=>`<div class="chk-i"><span>⚠️ ${esc(x.n)}</span><button class="s m" onclick="${x.f}">Aç</button></div>`).join('');
+  }catch(e){}
+
+  // yaddaş tərkibi (20 saniyədən bir)
+  try{
+    if(Date.now()-_brkAt>20000){
+      _brkAt=Date.now();
+      const b=J(N.storageBreakdown());
+      if(b.ok){
+        const used=s.t-s.f,other=Math.max(0,used-b.img-b.vid-b.aud-b.app);
+        const parts=[['Şəkillər',b.img,'#4da6ff'],['Videolar',b.vid,'#ffb84d'],['Səs',b.aud,'#b48cff'],['Tətbiqlər',b.app,'#3dd6a3'],['Digər',other,'#6b7694']];
+        $('#brk-seg').innerHTML=parts.map(p=>`<i style="width:${(p[1]/s.t*100).toFixed(2)}%;background:${p[2]}"></i>`).join('');
+        $('#brk-leg').innerHTML=parts.map(p=>`<span style="--c:${p[2]}">${p[0]} ${fmt(p[1])}</span>`).join('');
+        $('#brk-tot').textContent=`${fmt(used)} / ${fmt(s.t)}`;
+        $('#brk-card').style.display='block';
+      }
+    }
+  }catch(e){}
+}
+
+// ---- Yaddaş proqnozu və 24 saatlıq qrafik ----
+function calcForecast(){
+  try{
+    const tl=J(N.timeline());
+    const now=Date.now();
+    const pts=tl.filter(x=>x.f>0&&x.t>now-14*864e5);
+    if(pts.length<4)return null;
+    const t0=pts[0].t,span=(pts[pts.length-1].t-t0)/864e5;
+    if(span<0.5)return null;
+    let sx=0,sy=0,sxy=0,sxx=0;const n=pts.length;
+    pts.forEach(p=>{const x=(p.t-t0)/864e5,y=p.f;sx+=x;sy+=y;sxy+=x*y;sxx+=x*x});
+    const den=n*sxx-sx*sx;if(!den)return null;
+    const slope=(n*sxy-sx*sy)/den; // bayt/gün
+    const last=pts[pts.length-1];
+    if(slope>=-5e6)return {days:null,perDay:0,span};
+    return {days:last.f/(-slope),perDay:-slope,span};
+  }catch(e){return null}
+}
+function renderTimeline(){
+  try{
+    const fc=calcForecast();
+    $('#fc-txt').textContent=!fc?'Proqnoz üçün bir neçə saat məlumat toplanmalıdır.'
+      :fc.days===null?'Yaddaş sabitdir — son günlərdə nəzərəçarpacaq dolma yoxdur. ✅'
+      :`Son ${fc.span.toFixed(1)} gündə yaddaş orta hesabla gündə ~${fmt(fc.perDay)} dolur. Bu templə ~${Math.max(1,Math.round(fc.days))} gün sonra dolacaq.`;
+    const tl=J(N.timeline()),now=Date.now(),from=now-24*36e5;
+    const pts=tl.filter(x=>x.t>=from);
+    const box=$('#tl-chart');
+    if(pts.length<2){box.innerHTML='';return}
+    const W=320,H=110,px=t=>((t-from)/(now-from)*W).toFixed(1);
+    const yb=v=>(H-v/100*H).toFixed(1),yt=v=>(H-(Math.min(50,Math.max(20,v))-20)/30*H).toFixed(1);
+    const lb=pts.map(p=>px(p.t)+','+yb(p.b)).join(' ');
+    const lt=pts.map(p=>px(p.t)+','+yt(p.c)).join(' ');
+    box.innerHTML=`<svg class="tl-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">
+      <line x1="0" y1="${H/2}" x2="${W}" y2="${H/2}" style="stroke:var(--bd)" stroke-width="1"/>
+      <polyline points="${lb}" fill="none" stroke-width="2" stroke-linejoin="round" style="stroke:#3dd6a3"/>
+      <polyline points="${lt}" fill="none" stroke-width="2" stroke-linejoin="round" style="stroke:#ffb84d"/>
+    </svg><div class="note" style="display:flex;justify-content:space-between"><span>24 saat əvvəl</span><span>İndi</span></div>`;
+  }catch(e){}
+}
+
+// ---- Ümumi media əməliyyatı (zibil qutusu / bərpa / sil) ----
+let pendingAct=null;
+function doMedia(op,src,list){
+  if(!list.length)return;
+  pendingAct={op,src,list};
+  N.mediaAction(op,JSON.stringify(list.map(i=>({id:i.id,k:i.k}))));
+}
+const mkey=i=>i.k+i.id;
+window.onMediaAction=(op,ok)=>{
+  const pa=pendingAct;pendingAct=null;
+  if(!ok||!pa){toast('Əməliyyat ləğv edildi');return;}
+  const gone=new Set(pa.list.map(mkey));
+  const bytes=pa.list.reduce((a,i)=>a+(i.s||0),0);
+  if(pa.src==='gal'){items=items.filter(i=>!gone.has('i'+i.id));sel.clear();renderGal();}
+  else if(pa.src==='vid'){vids=vids.filter(v=>!gone.has('v'+v.id));vsel.clear();renderVideos();}
+  else if(pa.src==='msg'){msgList=msgList.filter(i=>!gone.has(mkey(i)));msel.clear();renderMsgItems();}
+  else if(pa.src==='doc'){allDocs=allDocs.filter(d=>!gone.has('f'+d.id));renderDocs();}
+  else if(pa.src==='trash'){trashItems=trashItems.filter(i=>!gone.has(mkey(i)));tsel.clear();renderTrash();}
+  const t=op==='trash'?`Zibil qutusuna atıldı (${fmt(bytes)}) — 30 gün saxlanılır`
+    :op==='restore'?'Bərpa olundu ♻️':`Həmişəlik silindi · ${fmt(bytes)} boşaldı`;
+  toast(t);info();
+};
+
+// Qalereya
+function galSelList(){return items.filter(i=>sel.has(i.id)).map(i=>({id:i.id,k:'i',s:i.size}))}
+function delSel(){doMedia('trash','gal',galSelList())}
+function delSelPerm(){doMedia('delete','gal',galSelList())}
+// Videolar
+function vidSelList(){return vids.filter(v=>vsel.has(v.id)).map(v=>({id:v.id,k:'v',s:v.s}))}
+function delVidSel(){doMedia('trash','vid',vidSelList())}
+function delVidPerm(){doMedia('delete','vid',vidSelList())}
+// Fayllar
+function delDoc(id){
+  const d=allDocs.find(x=>x.id===id);if(!d)return;
+  armBtn('dd'+id,()=>doMedia('delete','doc',[{id:d.id,k:'f',s:d.s}]));
+}
+// İki mərhələli təsdiq (confirm() əvəzinə)
+const _arm={};
+function armBtn(key,fn,el){
+  if(_arm[key]){clearTimeout(_arm[key].t);delete _arm[key];fn();return}
+  _arm[key]={t:setTimeout(()=>{delete _arm[key];toast('Təsdiq vaxtı bitdi')},4000)};
+  toast('Silməyi təsdiqləmək üçün düyməyə yenidən toxun');
+}
+
+// ---- Mesajlaşma təmizləyicisi ----
+let msgGroupsData=[],msgApp=null,msgType=null,msgList=[],msel=new Set();
+const TYPE_LBL={img:'🖼 Şəkillər',vid:'🎬 Videolar',aud:'🎙 Səs / Voice',doc:'📄 Sənədlər'};
+function loadMsg(){
+  $('#mdelbox').style.display='none';
+  msgApp=null;msgType=null;msel.clear();
+  if(!N.hasMedia()){
+    $('#msg-main').innerHTML='<p class="note">Media girişi icazəsi lazımdır.</p><button class="m" onclick="N.requestMediaPerm()">İcazə ver</button>';
+    return;
+  }
+  $('#msg-main').innerHTML='<p class="note">Skan olunur…</p>';
+  setTimeout(()=>{
+    try{msgGroupsData=J(N.msgGroups())}catch(e){msgGroupsData=[]}
+    renderMsgGroups();
+  },30);
+}
+function renderMsgGroups(){
+  if(!msgGroupsData.length){
+    $('#msg-main').innerHTML='<p class="note">WhatsApp, Telegram və ya Viber medyası tapılmadı.</p>';return;
+  }
+  const apps=[...new Set(msgGroupsData.map(g=>g.a))];
+  const totAll=msgGroupsData.reduce((a,g)=>a+g.b,0),oldAll=msgGroupsData.reduce((a,g)=>a+g.ob,0);
+  let h=`<p class="note" style="margin-top:0">Cəmi <b>${fmt(totAll)}</b>, onun <b class="warn">${fmt(oldAll)}</b> hissəsi 30 gündən köhnədir.</p>`;
+  if(!N.hasAudio())h+='<div class="setup-box"><span class="note">Səs (voice) faylları üçün əlavə icazə lazımdır.</span> <button class="m" onclick="N.requestMediaPerm()">İcazə ver</button></div>';
+  h+=apps.map(a=>{
+    const gs=msgGroupsData.filter(g=>g.a===a);
+    const tb=gs.reduce((x,g)=>x+g.b,0);
+    return `<div style="margin-top:10px"><b>${esc(a)}</b> <span class="note">· ${fmt(tb)}</span>`+gs.map(g=>`
+      <div class="msg-row">
+        <div><div>${TYPE_LBL[g.t]||g.t} <span class="note">(${g.n})</span></div>
+        <div class="note">${fmt(g.b)}${g.ob>0?` · <span class="warn">30+ gün: ${fmt(g.ob)}</span>`:''}</div></div>
+        <button class="s m" onclick="openMsgGroup('${esc(g.a)}','${g.t}')">Aç</button>
+      </div>`).join('')+`</div>`;
+  }).join('');
+  $('#msg-main').innerHTML=h;
+}
+function openMsgGroup(app,type){
+  msgApp=app;msgType=type;msel.clear();
+  try{msgList=J(N.msgItems(app,type,1500))}catch(e){msgList=[]}
+  renderMsgItems();
+}
+function msgBack(){msgApp=null;msel.clear();$('#mdelbox').style.display='none';loadMsg()}
+function renderMsgItems(){
+  if(!msgApp){return}
+  const old=msgList.filter(i=>i.old),oldB=old.reduce((a,i)=>a+i.s,0);
+  const shown=msgList.slice(0,120);
+  $('#msg-main').innerHTML=`
+    <div class="row" style="justify-content:space-between;margin-bottom:6px">
+      <b>${esc(msgApp)} · ${TYPE_LBL[msgType]||msgType}</b>
+      <button class="s m" onclick="msgBack()">← Geri</button>
+    </div>
+    <div class="row" style="margin-bottom:6px">
+      <button class="m" onclick="msgSelOld()">⏳ 30+ gün köhnələri seç (${old.length} · ${fmt(oldB)})</button>
+      <button class="s m" onclick="msgSelAll()">Hamısı (${msgList.length})</button>
+    </div>
+    ${shown.map(i=>`<div class="fi ${msel.has(mkey(i))?'sel':''}" onclick="msgTg('${mkey(i)}')">
+      <div class="cb">${msel.has(mkey(i))?'✓':''}</div>
+      <div class="app-tx"><div class="app-nm">${esc(i.n)}</div>
+      <div class="note">${fmt(i.s)} · ${fmtDate(i.d)}${i.old?' · <span class="warn">köhnə</span>':''}${i.snt?' · göndərilən':''}</div></div>
+    </div>`).join('')||'<p class="note">Fayl yoxdur.</p>'}
+    ${msgList.length>120?`<p class="note">Ən böyük 120 fayl göstərilir. Hamısını seçmək üçün yuxarıdakı düymələrdən istifadə et.</p>`:''}`;
+  const tot=msgList.filter(i=>msel.has(mkey(i))).reduce((a,i)=>a+i.s,0);
+  $('#mdelbox').style.display=msel.size?'block':'none';
+  $('#mselinfo').textContent=`${msel.size} fayl seçilib · ${fmt(tot)}`;
+  $('#m-btn-trash').style.display=msgType==='doc'?'none':'inline-block';
+}
+function msgTg(k){msel.has(k)?msel.delete(k):msel.add(k);renderMsgItems()}
+function msgSelOld(){msgList.filter(i=>i.old).forEach(i=>msel.add(mkey(i)));renderMsgItems()}
+function msgSelAll(){msgList.forEach(i=>msel.add(mkey(i)));renderMsgItems()}
+function msgDel(op){
+  const list=msgList.filter(i=>msel.has(mkey(i))).map(i=>({id:i.id,k:i.k,s:i.s}));
+  doMedia(op,'msg',list);
+}
+
+// ---- Zibil fayl skaneri ----
+let junkTimer=null;
+const JUNK_LBL={tmp:'🗂 Müvəqqəti fayllar (.tmp, .temp, .dmp)',log:'📜 Jurnal faylları (.log)',part:'⏬ Yarımçıq yükləmələr',thumb:'🖼 Önizləmə və keş qovluqları',empty:'📁 Boş qovluqlar'};
+function loadJunk(){
+  const st=J(N.junkStatus());
+  if(!st.all){
+    $('#junk-main').innerHTML=`<p class="note" style="margin-top:0">Zibil faylları tapmaq üçün <b>"Bütün fayllara giriş"</b> icazəsi lazımdır. Skaner yalnız müvəqqəti, jurnal, yarımçıq və boş qovluq kimi təhlükəsiz kateqoriyaları axtarır, şəxsi faylına toxunmur.</p><button onclick="N.openAllFiles()">İcazə ver</button>`;
+    return;
+  }
+  renderJunk(st);
+  if(st.run)pollJunk();
+}
+function junkScan(){N.junkStart();$('#junk-main').innerHTML='<p class="note">Skan başladı…</p>';pollJunk()}
+function pollJunk(){
+  clearInterval(junkTimer);
+  junkTimer=setInterval(()=>{
+    try{const st=J(N.junkStatus());renderJunk(st);if(!st.run)clearInterval(junkTimer)}catch(e){clearInterval(junkTimer)}
+  },700);
+}
+function renderJunk(st){
+  const box=$('#junk-main');
+  if(st.run){box.innerHTML=`<p class="note">Skan olunur… ${st.visited} element yoxlanıldı</p>`;return}
+  if(!st.done||!st.res||!st.res.cats){
+    box.innerHTML='<p class="note" style="margin-top:0">Daxili yaddaşda müvəqqəti fayllar, jurnallar, yarımçıq yükləmələr, önizləmə qovluqları və boş qovluqlar axtarılacaq.</p><button class="big" onclick="junkScan()">🔍 Skan et</button>';return;
+  }
+  const cats=st.res.cats;let total=0;
+  Object.values(cats).forEach(c=>total+=c.b);
+  let h=`<p class="note" style="margin-top:0">${st.res.visited} element yoxlanıldı · tapılan: <b class="ok">${fmt(total)}</b></p>`;
+  h+=Object.keys(JUNK_LBL).map(k=>{
+    const c=cats[k]||{n:0,b:0,top:[]};
+    if(!c.n)return `<div class="msg-row"><span>${JUNK_LBL[k]}</span><span class="note">tapılmadı ✓</span></div>`;
+    return `<div class="msg-row" style="align-items:flex-start">
+      <div style="min-width:0;flex:1"><div>${JUNK_LBL[k]}</div>
+      <div class="note">${c.n} element${c.b>0?' · '+fmt(c.b):''}</div>
+      ${c.top.slice(0,3).map(t=>`<div class="note" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">• ${esc(t.p)}</div>`).join('')}</div>
+      <button class="st m" onclick="junkClean('${k}')">Təmizlə</button>
+    </div>`;
+  }).join('');
+  h+='<div class="row" style="margin-top:10px"><button class="s m" onclick="junkScan()">🔄 Yenidən skan et</button></div>';
+  box.innerHTML=h;
+}
+function junkClean(cat){
+  armBtn('junk'+cat,()=>{
+    const r=J(N.junkDelete(cat));
+    toast(`${r.n} element silindi · ${fmt(r.freed)} boşaldı`);
+    if(r.freed>0)showResult({cacheBytes:r.freed});
+    const st=J(N.junkStatus());
+    if(st.res&&st.res.cats&&st.res.cats[cat]){st.res.cats[cat]={n:0,b:0,top:[]}}
+    renderJunk(st);info();
+  });
+}
+
+// ---- Zibil qutusu ----
+let trashItems=[],tsel=new Set();
+function loadTrash(){
+  $('#tdelbox').style.display='none';
+  try{trashItems=J(N.trashList())}catch(e){trashItems=[]}
+  tsel.clear();renderTrash();
+}
+function renderTrash(){
+  const tot=trashItems.reduce((a,i)=>a+i.s,0);
+  $('#trash-main').innerHTML=trashItems.length?`
+    <div class="row" style="justify-content:space-between;margin-bottom:6px">
+      <span class="note">${trashItems.length} fayl · ${fmt(tot)}</span>
+      <button class="s m" onclick="trashSelAll()">Hamısını seç</button>
+    </div>
+    <div class="grid">${trashItems.map(i=>{
+      const k=mkey(i),dl=i.e>0?Math.max(0,Math.ceil((i.e-Date.now())/864e5)):30;
+      return `<div class="th ${tsel.has(k)?'sel':''}" onclick="trashTg('${k}')">
+        ${i.t?`<img src="data:image/jpeg;base64,${i.t}">`:''}
+        <div class="chk">${tsel.has(k)?'✓':''}</div>
+        <small><span>${fmt(i.s)}</span><span>${dl} gün</span></small></div>`;}).join('')}</div>`
+    :'<p class="note">Zibil qutusu boşdur.</p>';
+  const sTot=trashItems.filter(i=>tsel.has(mkey(i))).reduce((a,i)=>a+i.s,0);
+  $('#tdelbox').style.display=tsel.size?'block':'none';
+  $('#tselinfo').textContent=`${tsel.size} fayl seçilib · ${fmt(sTot)}`;
+}
+function trashTg(k){tsel.has(k)?tsel.delete(k):tsel.add(k);renderTrash()}
+function trashSelAll(){trashItems.forEach(i=>tsel.add(mkey(i)));renderTrash()}
+function trashAct(op){
+  const list=trashItems.filter(i=>tsel.has(mkey(i))).map(i=>({id:i.id,k:i.k,s:i.s}));
+  doMedia(op,'trash',list);
+}
+
+// ---- Fayllar səhifəsi: alt bölmələr ----
+const FIL_TABS=['vid','doc','msg','junk','trash'];
+function switchFil(t){
+  FIL_TABS.forEach(k=>{
+    $('#ft-'+k).className='m'+(k===t?'':' s');
+    $('#box-'+k).style.display=k===t?'block':'none';
+  });
+  $('#vdelbox').style.display=(t==='vid'&&vsel.size)?'block':'none';
+  $('#mdelbox').style.display='none';
+  $('#tdelbox').style.display='none';
+  if(t==='vid')loadVideos();
+  else if(t==='doc')loadDocs();
+  else if(t==='msg')loadMsg();
+  else if(t==='junk')loadJunk();
+  else loadTrash();
+}
+
+window.onShow=()=>{
+  info();
+  setTimeout(info,1200);
+  try{
+    const cp=J(N.cacheProgress());
+    if(cp.run){
+      startProgressPoll();
+    }else{
+      $('#cache-prog-box').style.display='none';
+      if(cp.done>0){
+        toast(`Tamamlandı: ${cp.done} tətbiqin keşi (${fmt(cp.bytes)}) təmizləndi!`);
+      }
+    }
+  }catch(e){}
+  if($('#p-app').classList.contains('on'))loadApps();
+  if($('#p-sys').classList.contains('on')){loadSys();loadScreenTimeAndPrivacy();}
+};
+info();loadSch();
+</script></body></html>
